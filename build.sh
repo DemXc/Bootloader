@@ -7,6 +7,10 @@ export CROSS_COMPILE=i686-elf-
 BOOT_SRC="boot.asm"
 KERNEL_SRC_C="kernel/kernel.c"
 KERNEL_SRC_ASM="kernel/kernel.asm"
+PAGING_SRC="kernel/paging.c"  # Путь к файлу paging.c в директории kernel/
+
+# Driver
+DRIVER_CODE_C="driver/driver.c"
 
 # Output file names
 BOOT_BIN="bootloader.bin"
@@ -24,7 +28,8 @@ build_bootloader() {
 build_kernel_c() {
     echo "Building kernel (C)..."
     ${CROSS_COMPILE}gcc -m32 -ffreestanding -c $KERNEL_SRC_C -o kernel.o
-    echo "Kernel (C) built: kernel.o"
+    ${CROSS_COMPILE}gcc -m32 -ffreestanding -c $PAGING_SRC -o paging.o  # Компиляция paging.c
+    echo "Kernel (C) and Paging built: kernel.o, paging.o"
 }
 
 # Function to compile the kernel (ASM)
@@ -37,7 +42,7 @@ build_kernel_asm() {
 # Function to link the kernel
 link_kernel() {
     echo "Linking kernel..."
-    ${CROSS_COMPILE}ld -m elf_i386 -o $KERNEL_BIN -Ttext 0x1000 kernel_asm.o kernel.o --oformat binary
+    ${CROSS_COMPILE}ld -m elf_i386 -o $KERNEL_BIN -Ttext 0x1000 kernel_asm.o kernel.o paging.o --oformat binary  # Линковка paging.o
     echo "Kernel linked: $KERNEL_BIN"
 }
 
