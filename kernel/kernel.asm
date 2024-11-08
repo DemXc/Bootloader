@@ -1,13 +1,10 @@
 [BITS 32]
 
-global _start          ; Указываем точку входа
-global kernel_main     ; Указываем точку входа для основной функции ядра
+global _start
+global kernel_main
 
 _start:
-    ; Переход к функции kernel_main
     call kernel_main
-
-    ; Бесконечный цикл, чтобы ядро не завершалось
     jmp $
 
-times 512 - ($ - $$) db 0  ; Заполняем оставшееся пространство до 512 байт (сигнатура загрузчика)
+times 512 - ($ - $$) db 0
