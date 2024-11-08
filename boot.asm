@@ -21,9 +21,9 @@ start:
     mov dx, 0x184F
     int 0x10
 
-    mov ah, 0x0E
-    mov al, 'X'
-    int 0x10
+   ; mov ah, 0x0E
+   ; mov al, 'X'
+   ; int 0x10
 
     mov si, text
     call print
