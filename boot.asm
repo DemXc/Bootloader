@@ -21,9 +21,8 @@ start:
     mov dx, 0x184F
     int 0x10
 
-   ; mov ah, 0x0E
-   ; mov al, 'X'
-   ; int 0x10
+    mov si, logo
+    call print
 
     mov si, text
     call print
@@ -37,13 +36,19 @@ start:
     mov al, 8
     int 0x13
 
-    load_protected_mode:
-        cli
-        lgdt [gdt_descriptor]
-        mov eax, cr0
-        or al, 1
-        mov cr0, eax
-        jmp CODE_OFFSET:protected_mode_main
+    mov ax, 0x10
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov ss, ax
+
+    cli
+    lgdt [gdt_descriptor]
+    mov eax, cr0
+    or al, 1
+    mov cr0, eax
+    jmp CODE_OFFSET:protected_mode_main
 
 print:
     lodsb
@@ -59,9 +64,13 @@ done:
 
 text db 'Welcome to NkOs', 0
 
+logo db 'Logo', 0
+
 gdt_start:
     db 0x00, 0x00, 0x00, 0x00
-    db 0xFF, 0xFF, 0xFF, 0x00
+    db 0xFF, 0xFF, 0x00, 0x00
+    db 0x00, 0x00, 0x00, 0x00
+    db 0xFF, 0xFF, 0x00, 0x00
     db 0x00, 0x00, 0x00, 0x00
 
 gdt_end:

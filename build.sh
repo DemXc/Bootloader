@@ -8,6 +8,7 @@ BOOT_SRC="boot.asm"
 KERNEL_SRC_C="kernel/kernel.c"
 KERNEL_SRC_ASM="kernel/kernel.asm"
 PAGING_SRC="kernel/paging.c"  # Путь к файлу paging.c в директории kernel/
+MALLOC_SRC="kernel/malloc.c"
 
 # Driver
 DRIVER_CODE_C="driver/driver.c"
